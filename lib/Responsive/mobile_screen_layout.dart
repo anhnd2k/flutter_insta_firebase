@@ -7,7 +7,7 @@ class MobileScreenLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('flutter instagram firebase app'),
+        child: Text('flutter instagram mobile firebase app'),
       ),
     );
   }
