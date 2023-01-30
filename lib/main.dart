@@ -5,6 +5,7 @@ import 'package:flutter_insta_firebase/Responsive/mobile_screen_layout.dart';
 import 'package:flutter_insta_firebase/Responsive/responsive_layout_screen.dart';
 import 'package:flutter_insta_firebase/Responsive/web_screen_layout.dart';
 import 'package:flutter_insta_firebase/Screens/login_screen.dart';
+import 'package:flutter_insta_firebase/Screens/sign_up_screen.dart';
 import 'package:flutter_insta_firebase/Untils/colors.dart';
 
 void main() async {
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       //   mobileScreenLayout: MobileScreenLayout(),
       //   webScreenLayout: WebScreenLayout(),
       // ));
-      home: LoginScreen(),
+      home: SignUpScreen(),
     );
   }
 }
