@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_firebase/Resources/auth-methods.dart';
 import 'package:flutter_insta_firebase/Untils/Utils.dart';
+import 'package:flutter_insta_firebase/Untils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Widgets/text-field-input.dart';
@@ -26,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool checkFillData = false;
   String textWarning = 'Bạn phải nhập đủ các trường trên để tiếp tục';
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -58,22 +60,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
         return;
       }
+      setState(() {
+        _isLoading = true;
+      });
       // resolve in here ...
       Map<String, dynamic> res = (await AuthMethods().signUpUser(
-          email: _emailController.text,
-          password: _passWordController.text,
-          userName: _userNameController.text,
-          bio: _bioController.text,
-          file: _image!,
+        email: _emailController.text,
+        password: _passWordController.text,
+        userName: _userNameController.text,
+        bio: _bioController.text,
+        file: _image!,
       ));
+      // print(res);
+      setState(() {
+        _isLoading = false;
+      });
       if (res['status'] == false) {
-        print(res['mes']);
         setState(() {
           checkFillData = true;
           textWarning = res['mes'];
         });
       } else {
-        print(res['mes']);
+        showSnackBar(res['mes'], context);
         setState(() {
           checkFillData = false;
         });
@@ -82,10 +90,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void selectedImage() async {
-  Uint8List image = await pickImage(ImageSource.gallery);
-  setState(() {
-    _image = image;
-  });
+    Uint8List image = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
@@ -105,16 +113,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Stack(
                   children: [
-                    _image != null ?
-                      CircleAvatar(
-                        radius: 64,
-                        backgroundImage: MemoryImage(_image!),
-                      )
-                      : CircleAvatar(
-                      radius: 64,
-                      backgroundImage: NetworkImage(
-                          'https://scontent.fhan5-2.fna.fbcdn.net/v/t39.30808-6/322008412_1337631317066980_3890455477156250928_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=FItW1FY4mFAAX8OMJeq&_nc_ht=scontent.fhan5-2.fna&oh=00_AfCWYxVMndnyfUYopgxCaU9YANlHF7FYRzAMa-RIDaDDww&oe=63DD33CD'),
-                    ),
+                    _image != null
+                        ? CircleAvatar(
+                            radius: 64,
+                            backgroundImage: MemoryImage(_image!),
+                          )
+                        : CircleAvatar(
+                            radius: 64,
+                            backgroundImage: NetworkImage(
+                                'https://scontent.fhan5-2.fna.fbcdn.net/v/t39.30808-6/322008412_1337631317066980_3890455477156250928_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=FItW1FY4mFAAX8OMJeq&_nc_ht=scontent.fhan5-2.fna&oh=00_AfCWYxVMndnyfUYopgxCaU9YANlHF7FYRzAMa-RIDaDDww&oe=63DD33CD'),
+                          ),
                     Positioned(
                       child: IconButton(
                         onPressed: selectedImage,
@@ -172,7 +180,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 InkWell(
                   onTap: resolveData,
                   child: Container(
-                    child: const Text('Sign Up'),
+                    child: _isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          )
+                        : const Text('Sign Up'),
                     width: double.infinity,
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 12),

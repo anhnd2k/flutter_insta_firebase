@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_firebase/Resources/auth-methods.dart';
+import 'package:flutter_insta_firebase/Screens/home_screen.dart';
+import 'package:flutter_insta_firebase/Screens/sign_up_screen.dart';
+import 'package:flutter_insta_firebase/Untils/Utils.dart';
 import 'package:flutter_insta_firebase/Untils/colors.dart';
 import 'package:flutter_insta_firebase/Widgets/text-field-input.dart';
 
@@ -13,11 +17,31 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passWordController = TextEditingController();
 
+  bool _isLoading = false;
+
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passWordController.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String _res = await AuthMethods().loginUser(
+        email: _emailController.text, pass: _passWordController.text);
+    setState(() {
+      _isLoading = false;
+    });
+    if (_res == 'success') {
+      // navigate screen
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeScreen()));
+    } else {
+      showSnackBar(_res, context);
+    }
   }
 
   @override
@@ -35,9 +59,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Container(),
                   flex: 2,
                 ),
+                // const Text(
+                //   'Instagram',
+                //   style: TextStyle(color: Colors.white),
+                // ),
                 const Text(
-                  'Instagram',
-                  style: TextStyle(color: Colors.white),
+                  "Instagram",
+                  style: TextStyle(fontFamily: 'Billabong', fontSize: 35),
                 ),
                 const SizedBox(height: 40),
                 TextFieldInput(
@@ -54,8 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 40),
                 InkWell(
+                  onTap: () {
+                    !_isLoading ? loginUser() : null;
+                  },
                   child: Container(
-                    child: const Text('Login'),
                     width: double.infinity,
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -66,6 +96,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         color: Colors.blue),
+                    child: _isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          )
+                        : const Text('Login'),
                   ),
                 ),
                 Flexible(
@@ -76,19 +113,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Text("Don't have an account? "),
                       padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: const Text("Don't have an account? "),
                     ),
                     GestureDetector(
                       onTap: () {
-
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SignUpScreen()));
                       },
                       child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: const Text(
                           "Sign up.",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 8),
                       ),
                     )
                   ],
