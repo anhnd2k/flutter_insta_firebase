@@ -3,10 +3,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_firebase/Resources/auth-methods.dart';
+import 'package:flutter_insta_firebase/Responsive/mobile_screen_layout.dart';
 import 'package:flutter_insta_firebase/Untils/Utils.dart';
 import 'package:flutter_insta_firebase/Untils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../Responsive/responsive_layout_screen.dart';
+import '../Responsive/web_screen_layout.dart';
 import '../Widgets/text-field-input.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -81,7 +84,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
           textWarning = res['mes'];
         });
       } else {
-        showSnackBar(res['mes'], context);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout(),
+            ),
+          ),
+        );
         setState(() {
           checkFillData = false;
         });

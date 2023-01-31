@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_firebase/Resources/auth-methods.dart';
+import 'package:flutter_insta_firebase/Responsive/mobile_screen_layout.dart';
+import 'package:flutter_insta_firebase/Responsive/responsive_layout_screen.dart';
+import 'package:flutter_insta_firebase/Responsive/web_screen_layout.dart';
 import 'package:flutter_insta_firebase/Screens/home_screen.dart';
 import 'package:flutter_insta_firebase/Screens/sign_up_screen.dart';
 import 'package:flutter_insta_firebase/Untils/Utils.dart';
@@ -37,8 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     if (_res == 'success') {
       // navigate screen
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout())));
     } else {
       showSnackBar(_res, context);
     }
