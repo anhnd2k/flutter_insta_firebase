@@ -2,9 +2,8 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_insta_firebase/Responsive/storage_methods.dart';
+import 'package:flutter_insta_firebase/Models/user.dart' as models;
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,15 +31,16 @@ class AuthMethods {
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('profilePics', file, false);
 
-        await _fileStore.collection('user').doc(cred.user!.uid).set({
-          'userName': userName,
-          'uid': cred.user!.uid,
-          'email': email,
-          'bio': bio,
-          'follower': [],
-          'following': [],
-          'photoUrl': photoUrl
-        });
+        models.User user = models.User(
+            userName: userName,
+            uid: cred.user!.uid,
+            email: email,
+            bio: bio,
+            follower: [],
+            following: [],
+            photoUrl: photoUrl);
+
+        await _fileStore.collection('user').doc(cred.user!.uid).set(user.toJson());
         res['mes'] = 'SignUp Success';
         res['status'] = true;
         // await _fileStore.collection('user').add()
@@ -64,10 +64,10 @@ class AuthMethods {
   Future loginUser({required String email, required String pass}) async {
     String res = 'Some err occurred';
     try {
-      if(email.isNotEmpty && pass.isNotEmpty){
+      if (email.isNotEmpty && pass.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(email: email, password: pass);
         res = 'success';
-      }else{
+      } else {
         res = 'Please enter all the fields';
       }
     } catch (err) {
