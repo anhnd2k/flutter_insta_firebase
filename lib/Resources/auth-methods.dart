@@ -9,6 +9,14 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fileStore = FirebaseFirestore.instance;
 
+  Future<models.User> getUserDetail() async {
+    User currentUser = _auth.currentUser!;
+
+    DocumentSnapshot snap =
+        await _fileStore.collection('user').doc(currentUser.uid).get();
+    return models.User.fromSnap(snap);
+  }
+
   Future<Map<String, dynamic>> signUpUser({
     required String email,
     required String password,
@@ -40,7 +48,10 @@ class AuthMethods {
             following: [],
             photoUrl: photoUrl);
 
-        await _fileStore.collection('user').doc(cred.user!.uid).set(user.toJson());
+        await _fileStore
+            .collection('user')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
         res['mes'] = 'SignUp Success';
         res['status'] = true;
         // await _fileStore.collection('user').add()

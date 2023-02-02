@@ -12,8 +12,9 @@ class MobileScreenLayout extends StatefulWidget {
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _selectedIndex = 0;
+  // late PageController pageController;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     Text(
@@ -23,11 +24,32 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     UserScreen(),
   ];
 
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   pageController = PageController();
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   pageController.dispose();
+  // }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+    // pageController.jumpToPage(index);
   }
+
+  // void onChangePage(int page) {
+  //   setState(() {
+  //     _selectedIndex = page;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +57,11 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       appBar: _selectedIndex == 0 ? getAppBar() : null,
       body: SafeArea(
         child: _widgetOptions.elementAt(_selectedIndex),
+        // child: PageView(
+        //   children:  _widgetOptions,
+        //   controller: pageController,
+        //   onPageChanged: onChangePage,
+        // ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -58,4 +85,3 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     );
   }
 }
-

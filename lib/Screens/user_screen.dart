@@ -1,7 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_insta_firebase/Models/user.dart' as models;
+import 'package:flutter_insta_firebase/Providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -21,12 +22,17 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void getUserName() async {
-    DocumentSnapshot snap = await FirebaseFirestore.instance
-        .collection('user')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+    // DocumentSnapshot snap = await FirebaseFirestore.instance
+    //     .collection('user')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .get();
+
+    models.User user = Provider.of<UserProvider>(context).getUser;
+
+
     setState(() {
-      userName = (snap.data() as Map<String, dynamic>)!['userName'];
+      // userName = (snap.data() as Map<String, dynamic>)!['userName'];
+      userName = user.userName;
     });
   }
 
