@@ -25,9 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 (index) => const PostItem(
                       name: 'posts[index]["name"]',
                       profileImg:
-                          'https://scontent.fhan5-2.fna.fbcdn.net/v/t39.30808-6/322008412_1337631317066980_3890455477156250928_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=FItW1FY4mFAAX8OMJeq&_nc_ht=scontent.fhan5-2.fna&oh=00_AfCWYxVMndnyfUYopgxCaU9YANlHF7FYRzAMa-RIDaDDww&oe=63DD33CD',
+                          'https://scontent.fhan5-10.fna.fbcdn.net/v/t39.30808-6/330407988_1339663923245352_4624947092354634512_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=zQ_Pm-B1hUsAX8yKO-D&_nc_ht=scontent.fhan5-10.fna&oh=00_AfDPXx0kFZjwtCMSbKA4ZaZFi3eHfC-jrbQbDf_vSmrmuQ&oe=63F1E3F1',
                       postImg:
-                          'https://scontent.fhan5-2.fna.fbcdn.net/v/t39.30808-6/322008412_1337631317066980_3890455477156250928_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=FItW1FY4mFAAX8OMJeq&_nc_ht=scontent.fhan5-2.fna&oh=00_AfCWYxVMndnyfUYopgxCaU9YANlHF7FYRzAMa-RIDaDDww&oe=63DD33CD',
+                          'https://scontent.fhan5-10.fna.fbcdn.net/v/t39.30808-6/330407988_1339663923245352_4624947092354634512_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=zQ_Pm-B1hUsAX8yKO-D&_nc_ht=scontent.fhan5-10.fna&oh=00_AfDPXx0kFZjwtCMSbKA4ZaZFi3eHfC-jrbQbDf_vSmrmuQ&oe=63F1E3F1',
                       caption: 'posts[index]["caption"]',
                       isLoved: true,
                       commentCount: 'posts[index]["commentCount"]',
@@ -91,7 +91,7 @@ class PostItem extends StatelessWidget {
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
                         name,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold),
@@ -244,7 +244,7 @@ class PostItem extends StatelessWidget {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: NetworkImage(
-                                  'https://scontent.fhan5-2.fna.fbcdn.net/v/t39.30808-6/322008412_1337631317066980_3890455477156250928_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=FItW1FY4mFAAX8OMJeq&_nc_ht=scontent.fhan5-2.fna&oh=00_AfCWYxVMndnyfUYopgxCaU9YANlHF7FYRzAMa-RIDaDDww&oe=63DD33CD'),
+                                  'https://scontent.fhan5-10.fna.fbcdn.net/v/t39.30808-6/330407988_1339663923245352_4624947092354634512_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=zQ_Pm-B1hUsAX8yKO-D&_nc_ht=scontent.fhan5-10.fna&oh=00_AfDPXx0kFZjwtCMSbKA4ZaZFi3eHfC-jrbQbDf_vSmrmuQ&oe=63F1E3F1'),
                               fit: BoxFit.cover)),
                     ),
                     const Padding(

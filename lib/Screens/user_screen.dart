@@ -18,6 +18,12 @@ class _UserScreenState extends State<UserScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     getUserName();
   }
 
@@ -29,7 +35,8 @@ class _UserScreenState extends State<UserScreen> {
 
     models.User user = Provider.of<UserProvider>(context).getUser;
 
-
+    // UserProvider _userProvider = Provider.of(context, listen: false);
+    // models.User user = await _userProvider.getUserAhihi();
     setState(() {
       // userName = (snap.data() as Map<String, dynamic>)!['userName'];
       userName = user.userName;
@@ -70,7 +77,7 @@ class GetBody extends StatelessWidget {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: NetworkImage(
-                                  'https://scontent.fhan5-2.fna.fbcdn.net/v/t39.30808-6/322008412_1337631317066980_3890455477156250928_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=FItW1FY4mFAAX8OMJeq&_nc_ht=scontent.fhan5-2.fna&oh=00_AfCWYxVMndnyfUYopgxCaU9YANlHF7FYRzAMa-RIDaDDww&oe=63DD33CD'),
+                                  'https://scontent.fhan5-10.fna.fbcdn.net/v/t39.30808-6/330407988_1339663923245352_4624947092354634512_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5cd70e&_nc_ohc=zQ_Pm-B1hUsAX8yKO-D&_nc_ht=scontent.fhan5-10.fna&oh=00_AfDPXx0kFZjwtCMSbKA4ZaZFi3eHfC-jrbQbDf_vSmrmuQ&oe=63F1E3F1'),
                               fit: BoxFit.cover),
                         ),
                       ),

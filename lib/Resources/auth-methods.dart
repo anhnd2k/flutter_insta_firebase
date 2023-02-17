@@ -11,7 +11,6 @@ class AuthMethods {
 
   Future<models.User> getUserDetail() async {
     User currentUser = _auth.currentUser!;
-
     DocumentSnapshot snap =
         await _fileStore.collection('user').doc(currentUser.uid).get();
     return models.User.fromSnap(snap);

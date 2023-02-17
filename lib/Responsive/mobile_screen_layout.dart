@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_firebase/Screens/dragDropScreen.dart';
 import 'package:flutter_insta_firebase/Screens/home_screen.dart';
 import 'package:flutter_insta_firebase/Screens/user_screen.dart';
 import 'package:flutter_insta_firebase/Widgets/appbar.dart';
@@ -16,12 +17,14 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
+    DragDropScreen(),
     Text(
       'Index 1: Business',
       style: optionStyle,
     ),
     UserScreen(),
+    // DragDropScreen()
+    HomeScreen()
   ];
 
   // @override
@@ -76,6 +79,10 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           BottomNavigationBarItem(
             icon: Icon(Icons.supervised_user_circle_outlined),
             label: 'User',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.ac_unit_sharp),
+            label: 'Edit Image',
           ),
         ],
         currentIndex: _selectedIndex,
