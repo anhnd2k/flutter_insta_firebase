@@ -14,6 +14,7 @@ class DragDropScreen extends StatefulWidget {
 class _DragDropScreenState extends State<DragDropScreen> {
   List<Widget> _addedWidget = [];
   bool _showDeleteBottom = false;
+  bool _isDeleteButtonActive = false;
   final List<Widget> _dummyWidget = [
     const Icon(Icons.headphones, size: 40, color: Colors.amber),
     const Icon(Icons.hearing, size: 60, color: Colors.amber),
@@ -30,6 +31,7 @@ class _DragDropScreenState extends State<DragDropScreen> {
               {
                 setState(() {
                   _addedWidget.add(OverLayedWidget(
+                    key: Key(_addedWidget.length.toString()),
                     child: _dummyWidget.elementAt(_addedWidget.length),
                     onDragStart: () {
                       if (!_showDeleteBottom) {
@@ -38,11 +40,31 @@ class _DragDropScreenState extends State<DragDropScreen> {
                         });
                       }
                     },
-                    onDragEnd: () {
+                    onDragEnd: (offset, key) {
                       if (_showDeleteBottom) {
                         setState(() {
                           _showDeleteBottom = false;
                         });
+                      }
+                      if (offset.dy >
+                          (MediaQuery.of(context).size.height - 100)) {
+                            _addedWidget.removeWhere((widget) => widget.key == key);
+                          }
+                    },
+                    onDragUpdate: (offset, key) {
+                      if (offset.dy >
+                          (MediaQuery.of(context).size.height - 100)) {
+                        if (!_isDeleteButtonActive) {
+                          setState(() {
+                            _isDeleteButtonActive = true;
+                          });
+                        }
+                      } else {
+                        if (_isDeleteButtonActive) {
+                          setState(() {
+                            _isDeleteButtonActive = false;
+                          });
+                        }
                       }
                     },
                   ));
@@ -64,12 +86,12 @@ class _DragDropScreenState extends State<DragDropScreen> {
             ),
             for (int i = 0; i < _addedWidget.length; i++) _addedWidget[i],
             if (_showDeleteBottom)
-              const Align(
+              Align(
                 alignment: Alignment.bottomCenter,
                 child: Icon(
                   Icons.delete,
-                  size: 50,
-                  color: Colors.white70,
+                  size: _isDeleteButtonActive ? 38 : 28,
+                  color: _isDeleteButtonActive ? Colors.red : Colors.white70,
                 ),
               )
           ],
