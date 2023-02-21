@@ -7,7 +7,6 @@ class OverLayedWidget extends StatelessWidget {
   final Widget child;
   final VoidCallback onDragStart;
   final PointMoveCallBack onDragEnd;
-
   final PointMoveCallBack onDragUpdate;
 
   const OverLayedWidget(
