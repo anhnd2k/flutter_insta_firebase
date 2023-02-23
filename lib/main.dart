@@ -11,6 +11,7 @@ import 'package:flutter_insta_firebase/Screens/login_screen.dart';
 import 'package:flutter_insta_firebase/Screens/sign_up_screen.dart';
 import 'package:flutter_insta_firebase/Untils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:events_emitter/events_emitter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

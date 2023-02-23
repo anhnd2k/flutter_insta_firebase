@@ -1,8 +1,12 @@
+import 'package:events_emitter/events_emitter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_insta_firebase/Screens/EventEmitter/input_event_emitter.dart';
+import 'package:flutter_insta_firebase/Screens/InputDragComponent/Input_container.dart';
 
 import '../components/overlayedWidget.dart';
+import 'InputDragComponent/input_type.dart';
 
 class DragDropScreen extends StatefulWidget {
   const DragDropScreen({super.key});
@@ -20,20 +24,11 @@ class _DragDropScreenState extends State<DragDropScreen> {
   }
 
   List<Widget> _addedWidget = [];
-  
+
   bool _showDeleteBottom = false;
   bool _isDeleteButtonActive = false;
 
-//
-  Color color = Colors.white;
-//
-
   final List<Widget> _dummyWidget = [
-    const TextField(
-      decoration: InputDecoration(
-        hintText: 'Enter a search term',
-      ),
-    ),
     const Icon(Icons.hearing, size: 60, color: Colors.amber),
     const Icon(Icons.hail_outlined, size: 90, color: Colors.amber),
     const Icon(Icons.heart_broken, size: 60, color: Colors.amber),
@@ -45,16 +40,17 @@ class _DragDropScreenState extends State<DragDropScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextField textField = TextField(
-        decoration: const InputDecoration(hintText: 'enter'),
-        controller: controller,
-        onChanged: onChanged());
-    Container container = Container(
-      height: 50,
-      width: 150,
-      color: color,
-      child: textField,
-    );
+      final person = InputEventEmitter('John');
+    // TextField textField = TextField(
+    //     decoration: const InputDecoration(hintText: 'enter'),
+    //     // controller: controller,
+    //     onChanged: onChanged());
+    // Container container = Container(
+    //   height: 50,
+    //   width: 150,
+    //   color: Colors.white,
+    //   child: textField,
+    // );
     return Center(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -62,45 +58,48 @@ class _DragDropScreenState extends State<DragDropScreen> {
             if (_addedWidget.length < _dummyWidget.length)
               {
                 setState(() {
-                  _addedWidget.add(OverLayedWidget(
-                    key: Key(_addedWidget.length.toString()),
-                    // child: _dummyWidget.elementAt(_addedWidget.length),
-                    child: container,
-                    onDragStart: () {
-                      if (!_showDeleteBottom) {
-                        setState(() {
-                          _showDeleteBottom = true;
-                        });
-                      }
-                    },
-                    onDragEnd: (offset, key) {
-                      if (_showDeleteBottom) {
-                        setState(() {
-                          _showDeleteBottom = false;
-                        });
-                      }
-                      if (offset.dy >
-                          (MediaQuery.of(context).size.height - 100)) {
-                        _addedWidget.removeWhere((widget) => widget.key == key);
-                      }
-                    },
-                    onDragUpdate: (offset, key) {
-                      if (offset.dy >
-                          (MediaQuery.of(context).size.height - 100)) {
-                        if (!_isDeleteButtonActive) {
+                  _addedWidget.add(
+                    OverLayedWidget(
+                      key: Key(_addedWidget.length.toString()),
+                      // child: _dummyWidget.elementAt(_addedWidget.length),
+                      // child: const InputContainer(hintText: 'dfdfd'),
+                      onDragStart: () {
+                        if (!_showDeleteBottom) {
                           setState(() {
-                            _isDeleteButtonActive = true;
+                            _showDeleteBottom = true;
                           });
                         }
-                      } else {
-                        if (_isDeleteButtonActive) {
+                      },
+                      onDragEnd: (offset, key) {
+                        if (_showDeleteBottom) {
                           setState(() {
-                            _isDeleteButtonActive = false;
+                            _showDeleteBottom = false;
                           });
                         }
-                      }
-                    },
-                  ));
+                        if (offset.dy >
+                            (MediaQuery.of(context).size.height - 100)) {
+                          _addedWidget
+                              .removeWhere((widget) => widget.key == key);
+                        }
+                      },
+                      onDragUpdate: (offset, key) {
+                        if (offset.dy >
+                            (MediaQuery.of(context).size.height - 100)) {
+                          if (!_isDeleteButtonActive) {
+                            setState(() {
+                              _isDeleteButtonActive = true;
+                            });
+                          }
+                        } else {
+                          if (_isDeleteButtonActive) {
+                            setState(() {
+                              _isDeleteButtonActive = false;
+                            });
+                          }
+                        }
+                      },
+                    ),
+                  );
                 })
               }
           },
@@ -118,6 +117,44 @@ class _DragDropScreenState extends State<DragDropScreen> {
               ),
             ),
             for (int i = 0; i < _addedWidget.length; i++) _addedWidget[i],
+            // for (int i = 0; i < _addedWidget.length; i++)
+            //   OverLayedWidget(
+            //     key: Key(_addedWidget.length.toString()),
+            //     // child: _dummyWidget.elementAt(_addedWidget.length),
+            //     child: InputContainer(hintText: _addedWidget[i].content),
+            //     onDragStart: () {
+            //       if (!_showDeleteBottom) {
+            //         setState(() {
+            //           _showDeleteBottom = true;
+            //         });
+            //       }
+            //     },
+            //     onDragEnd: (offset, key) {
+            //       if (_showDeleteBottom) {
+            //         setState(() {
+            //           _showDeleteBottom = false;
+            //         });
+            //       }
+            //     //   if (offset.dy > (MediaQuery.of(context).size.height - 100)) {
+            //     //     _addedWidget.removeWhere((widget) => widget.key == key);
+            //     //   }
+            //     },
+            //     onDragUpdate: (offset, key) {
+            //       if (offset.dy > (MediaQuery.of(context).size.height - 100)) {
+            //         if (!_isDeleteButtonActive) {
+            //           setState(() {
+            //             _isDeleteButtonActive = true;
+            //           });
+            //         }
+            //       } else {
+            //         if (_isDeleteButtonActive) {
+            //           setState(() {
+            //             _isDeleteButtonActive = false;
+            //           });
+            //         }
+            //       }
+            //     },
+            //   ),
             if (_showDeleteBottom)
               Align(
                 alignment: Alignment.bottomCenter,
@@ -133,11 +170,7 @@ class _DragDropScreenState extends State<DragDropScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      print('white color');
-                      setState(() {
-                        Widget clone = _addedWidget[_addedWidget.length - 1];
-
-                      });
+                      person.say('I\'m a human!');
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
@@ -150,24 +183,19 @@ class _DragDropScreenState extends State<DragDropScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 20),
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.green,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 20),
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.black,
+                  InkWell(
+                    onTap: () {
+                      // events.emit('message', 'blue');
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 20),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.blue,
+                      ),
                     ),
                   ),
                 ],
